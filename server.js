@@ -11,15 +11,20 @@ const app = express()
 app.use(express.json()) // makes any body passed in a request, be forwarded
                         // in the request argument of handler functions
 
+// Connect route handlers defined in routes/ dir files
+// to the app.
+//
+app.use('/api/meetings', meetingRoutes) // all path handlers inside meetingRoutes
+                                        // are relative to path defined here in
+                                        // first arg
+
+// Error handlers here for root
+//
 // Root path request error handler
 app.use((err, req, res, next) => {
     console.error(err.stack) // print to console the error stack
     res.status(500).send(`It's not you, it's us.`) // Server error message
 })
-
-// Connect route handlers defined in routes/ dir files
-// to the app.
-
 
 // Make server listen by creating UNIX socket to listen on.
 // Set to DEV_PORT for local testing
