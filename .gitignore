@@ -1,0 +1,6 @@
+# Always ignore .env because you should define it locally
+.env
+# Ignore modules because you should install modules
+# using package.json set values (avoids high overhead
+# of pushing up code for modules to our repo)
+node_modules
