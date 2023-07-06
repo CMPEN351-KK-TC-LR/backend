@@ -1,5 +1,8 @@
 // make express available so we can setup Router
 const express = require('express')
+const Meeting = require('../models/MeetingModel') // Import meeting model
+                                                  // so we can work with DB
+                                                  // using Model
 
 // Create instance of router so we can make routes for meetings
 const router = express.Router()
