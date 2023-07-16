@@ -1,9 +1,10 @@
-const express = require('mongoose') // allows restricting allowed input objects
+const mongoose = require('mongoose') // allows restricting allowed input objects
                                     // to DB
 const Schema = mongoose.Schema // to create schema
 const complaintSchema = new Schema({
     id: { // ensure each complaint created with unique ID
         type: mongoose.ObjectId
+        required: true
     },
     subject: { // complaints must have subject matters for easy
         type: String, // reading by admins
