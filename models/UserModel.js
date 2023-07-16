@@ -1,9 +1,10 @@
-const express = require('mongoose') // allows restricting allowed input objects
+const mongoose = require('mongoose') // allows restricting allowed input objects
                                     // to DB
 const Schema = mongoose.Schema // to create schema
 const userSchema = new Schema({
     id: { // ensure each user created with unique user ID
-        type: mongoose.ObjectId
+        type: mongoose.ObjectId,
+        required: true
     },
     admin: { // set this property to true for admin users
         type: Boolean,
