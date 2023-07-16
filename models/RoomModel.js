@@ -1,4 +1,4 @@
-const express = require('mongoose') // allows restricting allowed input objects
+const mongoose = require('mongoose') // allows restricting allowed input objects
                                     // to DB
 const Schema = mongoose.Schema // to create schema
 const roomSchema = new Schema({
