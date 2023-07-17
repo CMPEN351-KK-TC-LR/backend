@@ -3,6 +3,16 @@ const express = require('express')
 const Meeting = require('../models/MeetingModel') // Import meeting model
                                                   // so we can work with DB
                                                   // using Model
+const {
+    getAllMeetings,
+    getUserMeetings,
+    getMeeting,
+    createMeeting,
+    updateMeeting,
+    deleteMeeting
+} = require('.../controllers/meetingController') // Import meetingController 
+                                                 // which contains all functions
+                                                 // needed for handlers
 
 // Create instance of router so we can make routes for meetings
 const router = express.Router()
@@ -13,37 +23,25 @@ const router = express.Router()
 // in the first arg to the corresponding app.use
 // inside our server.js
 //
-// Admin Only Functions
+// Admin Only Handlers:
 // Get all meetings
-router.get('/', (req, res) => {
-    res.json({msg: 'GET all meetings'})
-})
+router.get('/', getAllMeetings)
 
-// User Functions (and Admin)
+// Admin and User Handlers
 // Get meetings of only single user
-router.get('/users/:userId', (req, res) => {
-    res.json({msg: 'GET all meetings by userId'})
-})
+router.get('/users/:userId', getUserMeetings)
 
 // Get single meeting
-router.get('/:id', (req, res) => {
-    res.json({msg: 'GET single meeting'})
-})
+router.get('/:id', getMeeting)
 
 // Create single meeting
-router.post('/', (req, res) => {
-    res.json({msg: 'POST a new meeting'})
-})
+router.post('/', createMeeting)
 
 // Update single meeting
-router.patch('/:id', (req, res) => {
-    res.json({msg: 'UPDATE a meeting'})
-})
+router.patch('/:id', updateMeeting)
 
 // Delete a single meeting
-router.delete('/:id', (req, res) => {
-    res.json({msg: 'DELETE a single meeting'})
-})
+router.delete('/:id', deleteMeeting)
 
 // export the routes so we can import them
 // into our main app
