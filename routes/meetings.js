@@ -27,7 +27,7 @@ const router = express.Router()
 // Get all meetings
 router.get('/', getAllMeetings)
 
-// Admin and User Handlers
+// Admin and Client Handlers
 // Get meetings of only single user
 router.get('/users/:userId', getUserMeetings)
 
