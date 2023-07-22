@@ -19,10 +19,10 @@ app.use(express.json()) // makes any body passed in a request, be forwarded
 app.use('/api/meetings', meetingRoutes) // all path handlers inside meetingRoutes
                                         // are relative to path defined here in
                                         // first arg
-app.use('/api/meetings', complaintsRoutes)  // all path handlers inside complaintsRoutes
+app.use('/api/complaints', complaintsRoutes)  // all path handlers inside complaintsRoutes
                                             // are relative to path defined here in
                                             // first arg
-app.use('/api/meetings', roomsRoutes)  // all path handlers inside roomsRoutes
+app.use('/api/rooms', roomsRoutes)  // all path handlers inside roomsRoutes
                                             // are relative to path defined here in
                                             // first arg
 
