@@ -3,6 +3,7 @@ require('dotenv').config() // make env vars in .env available
 const express = require('express') // make express.js available
 // Import route handlers here
 const meetingRoutes = require('./routes/meetings.js')
+const complaintsRoutes = require('./routes/mcomplaints.js')
 
 // instantiate app here
 const app = express()
@@ -17,6 +18,9 @@ app.use(express.json()) // makes any body passed in a request, be forwarded
 app.use('/api/meetings', meetingRoutes) // all path handlers inside meetingRoutes
                                         // are relative to path defined here in
                                         // first arg
+app.use('/api/meetings', complaintsRoutes)  // all path handlers inside complaintsRoutes
+                                            // are relative to path defined here in
+                                            // first arg
 
 // Error handlers here for root
 //
