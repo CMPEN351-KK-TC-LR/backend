@@ -34,7 +34,7 @@ const createComplaint = async (req, res) => {
     const {id, subject, email, message} = req.body
 
     try {
-        const complaint = await Complaint.create({id, subject, email, message})
+        const complaint = await Complaint.create({id, subject, email, message, resolved: false})
         res.status(200).json(complaint)
     } catch (error) {
         res.status(400).json({error: error.message})
