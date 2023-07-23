@@ -13,6 +13,10 @@ const userSchema = new Schema({
     email: { // need to use company email to have account
         type: String,
         required: true
+    },
+    name: { // Display name for user
+        type: String,
+        required: true
     }
     // payment and password info stored elsewhere
     // use the userId to access that info
