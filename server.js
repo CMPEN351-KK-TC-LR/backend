@@ -5,6 +5,7 @@ const express = require('express') // make express.js available
 const meetingRoutes = require('./routes/meetings.js')
 const complaintsRoutes = require('./routes/complaints.js')
 const roomsRoutes = require('./routes/rooms.js')
+const usersRoutes = require('./routes/users.js')
 
 // instantiate app here
 const app = express()
@@ -23,6 +24,9 @@ app.use('/api/complaints', complaintsRoutes)  // all path handlers inside compla
                                             // are relative to path defined here in
                                             // first arg
 app.use('/api/rooms', roomsRoutes)  // all path handlers inside roomsRoutes
+                                            // are relative to path defined here in
+                                            // first arg
+app.use('/api/users', usersRoutes)  // all path handlers inside usersRoutes
                                             // are relative to path defined here in
                                             // first arg
 
