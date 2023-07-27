@@ -2,6 +2,10 @@ const mongoose = require('mongoose') // allows restricting allowed input objects
                                     // to DB
 const Schema = mongoose.Schema // to create schema
 const paymentMethodSchema = new Schema({
+    _id: { // Make the user associate his ID with their payment method in the request
+        type: Number,
+        required: true
+    },
     // require storage of basic info needed to submit
     // credit card payment.
     // Our app only allows payment with credit cards

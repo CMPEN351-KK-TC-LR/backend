@@ -5,7 +5,7 @@ const {
     createRoom,
     deleteRoom,
     reserveRoom
-} = require('.../controllers/roomController')// Import roomController 
+} = require('../controllers/roomController')// Import roomController 
                                             // which contains all functions
                                             // needed for handlers
 

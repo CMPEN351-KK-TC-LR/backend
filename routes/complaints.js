@@ -5,7 +5,7 @@ const {
     getAllComplaints,
     updateComplaint,
     createComplaint
-} = require('.../controllers/complaintController')    // Import meetingController 
+} = require('../controllers/complaintController')    // Import meetingController 
                                                     // which contains all functions
                                                     // needed for handlers
 

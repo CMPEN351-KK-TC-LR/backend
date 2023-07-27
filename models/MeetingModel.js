@@ -2,12 +2,6 @@ const mongoose = require('mongoose') // allows restricting allowed input objects
                                     // to DB
 const Schema = mongoose.Schema // to create schema
 const meetingSchema = new Schema({
-    id: {
-        type: mongoose.ObjectId, // this will auto-populate with unique ID
-                                // with String base type when constructor
-                                // for this object model is called
-        required: true
-    },
     name: { // make sure each meeting has a String name
         type: String,
         required: true

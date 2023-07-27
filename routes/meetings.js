@@ -10,7 +10,7 @@ const {
     createMeeting,
     updateMeeting,
     deleteMeeting
-} = require('.../controllers/meetingController') // Import meetingController 
+} = require('../controllers/meetingController') // Import meetingController 
                                                  // which contains all functions
                                                  // needed for handlers
 
