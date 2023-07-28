@@ -2,30 +2,136 @@ const User = require('../models/UserModel') // Import user model
                                                   // so we can work with DB
                                                   // using Model
 const mongoose = require('mongoose')
+const Joi = require('joi')
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+const config = process.env
+
+let user = null;
+
+// Validate a user's submitted information
+const validateUser = async (user) => {
+    const authObj = Joi.object({
+        email: Joi.string().min(21).max(50).required(),
+        name: Joi.string().min(3).max(30),
+        password: Joi.string().min(15).max(50).required()
+    })
+
+    return authObj.validate(user)
+}
+
+// Create signing token
+// takes a user Model and creates a token
+// with only the minimum values needed to serve pages properly
+const signToken = (user) => {
+    const token = jwt.sign(
+        { user_id: user._id, isAdmin: user.admin},
+        config.PRIV_KEY,
+        {
+            expiresIn: "8h"
+        }
+    )
+    return token
+}
+
+// Hash the password and store it in the database
+const hashNStorePw = async (user) => {
+    const safeErrorMsg = 'Unable to create new user'
+    // Hash password
+    try {
+        user.password = await bcrypt.hash(user.password, 8)
+    } catch {
+        throw Error(safeErrorMsg)
+    }
+
+    // Store password
+    if (user.password !== null) {
+        await user.save();
+    } else {
+        throw Error(safeErrorMsg)
+    }
+
+    // Create token
+    const token = signToken(user)
+
+    return token // return token
+}
 
 // Admin Only Functions:
 // Create Admin account
 const createAdmin = async (req, res) => {
-    const {id, email, name} = req.body
+    const {email, name, password} = req.body
+
+    user = new User({
+        admin: true,
+        email,
+        name,
+        password
+    })
+    
+    try {
+        token = await hashNStorePw(user)
+        res.header('x-auth-token', token).send({
+            _id: user._id,
+            name: user.name,
+            email: user.email
+        })
+    } catch (error) {
+        res.status(400).json({error: error.message})
+    }
+    
+}
+
+// Client Functions:
+// Create Client account
+const createClient = async (req, res) => {
+    const {email, name, password} = req.body
+
+    user = new User({
+        admin: false,
+        email,
+        name,
+        password
+    })
 
     try {
-        const admin = await User.create({id, admin: true, email, name})
-        res.status(200).json(admin)
+        token = await hashNStorePw(user)
+        res.header('x-auth-token', token).send({
+            _id: user._id,
+            name: user.name,
+            email: user.email
+        })
     } catch (error) {
         res.status(400).json({error: error.message})
     }
 }
 
-// Admin and Client Functions:
-// Create Client account
-const createClient = async (req, res) => {
-    const {id, email, name} = req.body
+// Log user in
+const loginUser = async (req, res) => {
+    const { email, password } = req.body
 
-    try {
-        const client = await User.create({id, admin: false, email, name})
-        res.status(200).json(client)
-    } catch (error) {
-        res.status(400).json({error: error.message})
+    // Check that user email exists
+    const user = await User.findOne({ email })
+
+    // Check password
+    if (user) {
+        try {
+            // Compare hashes
+            await bcrypt.compare(password, user.password)
+            // Create and sign token
+            const token = signToken(user)
+            delete user.password // Remove password before returning object
+            res.header('x-auth-token', token)
+                .status(200)
+                .json({
+                    _id: user._id,
+                    isAdmin: user.admin
+                })
+        } catch (e) {
+            throw Error(e)
+        }
+    } else {
+        res.status(400).send('Invalid credentials')
     }
 }
 
@@ -39,7 +145,7 @@ const updateProfile = async (req, res) => {
 
     const profile = await User.findOneAndUpdate({_id: id}, {...req.body})
 
-    if(!profile){
+    if(!profile) {
         return res.status(400).json({error: 'No profile found'})
     }
 
@@ -48,5 +154,7 @@ const updateProfile = async (req, res) => {
 module.exports = {
     createAdmin,
     createClient,
-    updateProfile
+    updateProfile,
+    validateUser,
+    loginUser
 }
