@@ -7,7 +7,8 @@ const {
     createAdmin,
     createClient,
     updateProfile,
-    validateUser
+    validateUser,
+    loginUser
 } = require('../controllers/userController')// Import userController 
                                             // which contains all functions
                                             // needed for handlers
@@ -41,10 +42,24 @@ router.post('/register', async (req, res) => {
     }
 })
 
+// Login user
+router.post('/login', async (req, res) => {
+    try {
+        const { email, password } = req.body
+        if (!(email && password)) {
+            res.status(400).send('Invalid credentials')
+        }
+
+        await loginUser(req, res)
+    } catch (e) {
+        console.error(e)
+    }
+})
+
 // Get user information
 router.get('/user-info', auth, async (req, res) => {
-    const user = await User.findById(req.user._id).select('-password')
-    res.send(user)
+    const user = await User.findById(req.user.user_id).select('-password')
+    res.json(user)
 })
 
 // Update profile information

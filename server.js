@@ -1,6 +1,5 @@
 require('dotenv').config() // make env vars in .env available
                            // from process.env.VAR_NAME_HERE
-const config = require('config') 
 const express = require('express') // make express.js available
 const mongoose = require('mongoose') // Connect to MongoDB
 // Import route handlers here
@@ -14,7 +13,7 @@ const app = express()
 
 // Below also taken from: https://medium.com/quick-code/handling-authentication-and-authorization-with-node-7f9548fedde8
 // If no private key set, end the application
-if (!config.get("secretprivatekey")) {
+if (!process.env.PRIV_KEY) {
     console.error("No signing key set.");
     process.exit(1);
 }

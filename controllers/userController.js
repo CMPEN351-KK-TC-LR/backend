@@ -4,6 +4,8 @@ const User = require('../models/UserModel') // Import user model
 const mongoose = require('mongoose')
 const Joi = require('joi')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+const config = process.env
 
 let user = null;
 
@@ -16,6 +18,20 @@ const validateUser = async (user) => {
     })
 
     return authObj.validate(user)
+}
+
+// Create signing token
+// takes a user Model and creates a token
+// with only the minimum values needed to serve pages properly
+const signToken = (user) => {
+    const token = jwt.sign(
+        { user_id: user._id, isAdmin: user.admin},
+        config.PRIV_KEY,
+        {
+            expiresIn: "8h"
+        }
+    )
+    return token
 }
 
 // Hash the password and store it in the database
@@ -36,7 +52,7 @@ const hashNStorePw = async (user) => {
     }
 
     // Create token
-    const token = user.genAuthToken()
+    const token = signToken(user)
 
     return token // return token
 }
@@ -88,7 +104,35 @@ const createClient = async (req, res) => {
     } catch (error) {
         res.status(400).json({error: error.message})
     }
-    
+}
+
+// Log user in
+const loginUser = async (req, res) => {
+    const { email, password } = req.body
+
+    // Check that user email exists
+    const user = await User.findOne({ email })
+
+    // Check password
+    if (user) {
+        try {
+            // Compare hashes
+            await bcrypt.compare(password, user.password)
+            // Create and sign token
+            const token = signToken(user)
+            delete user.password // Remove password before returning object
+            res.header('x-auth-token', token)
+                .status(200)
+                .json({
+                    _id: user._id,
+                    isAdmin: user.admin
+                })
+        } catch (e) {
+            throw Error(e)
+        }
+    } else {
+        res.status(400).send('Invalid credentials')
+    }
 }
 
 // Update user profile information
@@ -111,5 +155,6 @@ module.exports = {
     createAdmin,
     createClient,
     updateProfile,
-    validateUser
+    validateUser,
+    loginUser
 }
