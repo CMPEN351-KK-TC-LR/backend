@@ -4,7 +4,9 @@ const Schema = mongoose.Schema // to create schema
 const meetingSchema = new Schema({
     name: { // make sure each meeting has a String name
         type: String,
-        required: true
+        required: true,
+        minlength: 3,
+        maxlength: 150
     },
     time: { // make sure each meeting has a time
         type: Date, // must invoke .markModified('time')
@@ -15,7 +17,9 @@ const meetingSchema = new Schema({
     },
     room: { // require an associated room number
         type: Number,
-        required: true
+        required: true,
+        minlength: 1,
+        maxlength: 250
     },
     creator: { // Require that the request contains
                // UserId of the user creating the meeting
@@ -24,6 +28,7 @@ const meetingSchema = new Schema({
     },
     attendees: {
         type: [mongoose.ObjectId], // unique UserId's
+        required: false
     }
 }, {
     timestamps: true // make sure that meetings
