@@ -1,13 +1,17 @@
 // make express available so we can setup Router
 const express = require('express')
 
+const Complaint = require('../models/ComplaintModel')
+
 const {
     getAllComplaints,
     updateComplaint,
     createComplaint
-} = require('../controllers/complaintController')    // Import meetingController 
+} = require('../controllers/complaintController')    // Import meetingController
                                                     // which contains all functions
                                                     // needed for handlers
+
+const auth = require('../controllers/auth');
 
 // Create instance of router so we can make routes for complaints
 const router = express.Router()
@@ -20,14 +24,32 @@ const router = express.Router()
 
 // Admin Only Handlers:
 // Get all complaints
-router.get('/', getAllComplaints)
+router.get('/get-all-complaints', auth, async (req, res) => {
+    try {
+        await getAllComplaints(req, res);
+    } catch (e) {
+        console.error(e);
+    }
+});
 
 // Respond to one complaint
-router.patch('/:id', updateComplaint)
+router.patch('/update-complaint', auth, async (req, res) => {
+    try {
+        await updateComplaint(req, res);
+    } catch (e) {
+        console.error(e);
+    }
+});
 
 // Admin and Client Handlers:
 // Create single complaint
-router.post('/', createComplaint)
+router.post('/create-complaint', auth, async (req, res) => {
+    try {
+        await createComplaint(req, res);
+    } catch (e) {
+        console.error(e);
+    }
+});
 
 // export the routes so we can import them
 // into our main app
