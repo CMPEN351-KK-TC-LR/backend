@@ -9,7 +9,7 @@ const config = process.env
 
 let user = null;
 
-// Validate a user's submitted information
+// Validate a user's submitted registration information
 const validateUser = async (user) => {
     const authObj = Joi.object({
         email: Joi.string().min(21).max(50).required(),
@@ -18,6 +18,16 @@ const validateUser = async (user) => {
     })
 
     return authObj.validate(user)
+}
+
+// Validate user password for authentication or login
+const validateLogin = async (user) => {
+    const loginObj = Joi.object({
+        _id: Joi.string().required(), // user id
+        password: Joi.string().min(15).max(50).required() // password entered
+    })
+
+    return loginObj.validate(user)
 }
 
 // Create signing token
@@ -108,10 +118,12 @@ const createClient = async (req, res) => {
 
 // Log user in
 const loginUser = async (req, res) => {
-    const { email, password } = req.body
+    const { _id, email, password } = req.body
 
+    // User DB search variable
+    const searchVar = _id ? _id : email
     // Check that user email exists
-    const user = await User.findOne({ email })
+    const user = await User.findOne({ searchVar })
 
     // Check password
     if (user) {
@@ -156,5 +168,6 @@ module.exports = {
     createClient,
     updateProfile,
     validateUser,
-    loginUser
+    loginUser,
+    validateLogin
 }
