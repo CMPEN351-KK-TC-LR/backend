@@ -35,8 +35,21 @@ const deleteRoom = async (req, res) => {
 
 // Admin and Client Functions:
 // Reserve a single room (Also needs to charge if room is special)
+// req.body should contain meeting info
 const reserveRoom = async (req, res) => {
+    const{ num } = req.params
 
+    if(!mongoose.Types.ObjectId.isValid(num)){
+        return res.status(404).json({error: 'No room found'})
+    }
+
+    const room = await Room.findOneAndUpdate({_number: num}, {...req.body})
+
+    if(!room) {
+        return res.status(400).json({error: 'No room found'})
+    }
+
+    res.status(200).json(room)
 }
 module.exports = {
     createRoom,
