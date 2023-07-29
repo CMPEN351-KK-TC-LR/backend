@@ -4,7 +4,9 @@ const Schema = mongoose.Schema // to create schema
 const roomSchema = new Schema({
     number: { // required room number
         type: Number,
-        required: true
+        required: true,
+        minlength: 1,
+        maxlength: 250
     },
     specialRoom: {
         type: Boolean, // Rooms have two possible types
