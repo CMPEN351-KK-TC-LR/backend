@@ -8,7 +8,8 @@ const {
     createClient,
     updateProfile,
     validateUser,
-    loginUser
+    loginUser,
+    validateLogin
 } = require('../controllers/userController')// Import userController 
                                             // which contains all functions
                                             // needed for handlers
@@ -49,6 +50,24 @@ router.post('/login', async (req, res) => {
         if (!(email && password)) {
             res.status(400).send('Invalid credentials')
         }
+
+        await loginUser(req, res)
+    } catch (e) {
+        console.error(e)
+    }
+})
+
+// Used to re-authenticate a logged on user
+router.post('/auth', async (req, res) => {
+    try {
+        const { _id, password } = req.body
+        if (!(_id && password)) {
+            res.status(400).send('Invalid credentials')
+        }
+
+        // After verifying that info was submitted
+        const { error } = validateLogin(req.body)
+        if (error) return res.status(400).send(error.details[0].message)
 
         await loginUser(req, res)
     } catch (e) {
