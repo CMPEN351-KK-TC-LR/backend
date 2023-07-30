@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 
 // Admin Only Functions:
 // Create a single room
+// req.body should contain room number and if it is special room
 const createRoom = async (req, res) => {
     const {number, specialroom} = req.body
 
@@ -17,14 +18,15 @@ const createRoom = async (req, res) => {
 }
 
 // Delete a single room
+// req.body should contain room number
 const deleteRoom = async (req, res) => {
-    const{ number } = req.params
+    const { num } = req.body
 
-    if(!mongoose.Types.ObjectID.isValid(number)){
+    if(!mongoose.Types.ObjectId.isValid(num)){
         return res.status(404).json({error: 'No room found'})
     }
 
-    const room = await Room.findOneAndDelete({_number: number})
+    const room = await Room.findOneAndDelete({number: num})
 
     if(!room){
         return res.status(400).json({error: 'No room found'})
@@ -35,15 +37,21 @@ const deleteRoom = async (req, res) => {
 
 // Admin and Client Functions:
 // Reserve a single room (Also needs to charge if room is special)
-// req.body should contain meeting info
+// req.body should contain room number and meeting date
 const reserveRoom = async (req, res) => {
-    const{ num } = req.params
+    const{ num, meetingDate } = req.body
 
     if(!mongoose.Types.ObjectId.isValid(num)){
         return res.status(404).json({error: 'No room found'})
     }
 
-    const room = await Room.findOneAndUpdate({_number: num}, {...req.body})
+    const room = await Room.findOne({number: num})
+
+    if(room.meetings == meetingDate){
+        return res.status(400).json({error: 'Room already reserved for time.'})
+    }
+
+    await Room.updateOne({room}, {meetings: meetingDate})
 
     if(!room) {
         return res.status(400).json({error: 'No room found'})
