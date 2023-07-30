@@ -5,6 +5,7 @@ const Meeting = require('../models/MeetingModel') // Import meeting model
                                                   // using Model
 const {
     getAllMeetings,
+    getTimeMeetings,
     getUserMeetings,
     getMeeting,
     createMeeting,
