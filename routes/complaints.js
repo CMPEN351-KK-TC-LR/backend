@@ -11,7 +11,7 @@ const {
                                                     // which contains all functions
                                                     // needed for handlers
 
-const auth = require('../controllers/auth');
+const auth = require('../controllers/auth')
 
 // Create instance of router so we can make routes for complaints
 const router = express.Router()
@@ -26,30 +26,30 @@ const router = express.Router()
 // Get all complaints
 router.get('/get-all-complaints', auth, async (req, res) => {
     try {
-        await getAllComplaints(req, res);
+        await getAllComplaints(req, res)
     } catch (e) {
-        console.error(e);
+        console.error(e)
     }
-});
+})
 
 // Respond to one complaint
 router.patch('/update-complaint', auth, async (req, res) => {
     try {
-        await updateComplaint(req, res);
+        await updateComplaint(req, res)
     } catch (e) {
-        console.error(e);
+        console.error(e)
     }
-});
+})
 
 // Admin and Client Handlers:
 // Create single complaint
 router.post('/create-complaint', auth, async (req, res) => {
     try {
-        await createComplaint(req, res);
+        await createComplaint(req, res)
     } catch (e) {
-        console.error(e);
+        console.error(e)
     }
-});
+})
 
 // export the routes so we can import them
 // into our main app
