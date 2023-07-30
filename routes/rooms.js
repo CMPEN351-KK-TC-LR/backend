@@ -12,6 +12,8 @@ const {
 // Create instance of router so we can make routes for rooms
 const router = express.Router()
 
+const auth = require('../controllers/auth')
+
 // Create handlers. All of these have relative paths.
 // The path is the first argument to the method.
 // The paths are relative to the path specified
@@ -20,14 +22,32 @@ const router = express.Router()
 //
 // Admin Only Handlers:
 // Create single room
-router.post('/', createRoom)
+router.post('/create-room', auth, async (req, res) => {
+    try {
+        await createRoom(req, res);
+    } catch (e) {
+        console.error(e);
+    }
+})
 
 // Delete single room
-router.delete('/:number', deleteRoom)
+router.delete('/delete-room', auth, async (req, res) => {
+    try {
+        await deleteRoom(req, res);
+    } catch (e) {
+        console.error(e);
+    }
+})
 
 // Admin and Client Handlers:
 // Reserve room
-router.get('/:number', reserveRoom)
+router.get('/reserve-room', auth, async (req, res) => {
+    try {
+        await reserveRoom(req, res);
+    } catch (e) {
+        console.error(e);
+    }
+})
 
 // export the routes so we can import them
 // into our main app
