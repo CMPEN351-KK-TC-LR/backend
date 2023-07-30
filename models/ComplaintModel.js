@@ -4,10 +4,14 @@ const Schema = mongoose.Schema // to create schema
 const complaintSchema = new Schema({
     subject: { // complaints must have subject matters for easy
         type: String, // reading by admins
-        required: true
+        minlength: 10,
+        maxlength: 500,
+        required: true,
     },
     email: { // use company email to submit complaint
         type: String, // all communication will be performed via email
+        minlength: 21,
+        maxlength: 50,
         required: true // and system will only keep track of status of complaint    
                        // along with initial message, title, and other metadata
     },
@@ -17,6 +21,12 @@ const complaintSchema = new Schema({
                        // will need to validate elsewhere
                        // to ensure no all-space characters
                        // messages
+    },
+    reply: { // admin reply to complaint
+        type: String,
+        minlength: 10,
+        maxlength: 500,
+        required: false
     },
     resolved: { // To help with filtering complaints viewed by admins
         type: Boolean,
