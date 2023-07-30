@@ -17,6 +17,8 @@ const {
 // Create instance of router so we can make routes for meetings
 const router = express.Router()
 
+const auth = require('../controllers/auth')
+
 // Create handlers. All of these have relative paths.
 // The path is the first argument to the method.
 // The paths are relative to the path specified
@@ -25,23 +27,68 @@ const router = express.Router()
 //
 // Admin Only Handlers:
 // Get all meetings
-router.get('/', getAllMeetings)
+router.get('/get-meetings', auth, async (req, res) => {
+    try {
+        await getAllMeetings(req, res);
+    } catch (e) {
+        console.error(e);
+    }
+})
+
+// Get meetings for a single time slot
+router.get('/get-meetings-timeslot', auth, async (req, res) => {
+    try {
+        await getTimeMeetings(req, res);
+    } catch (e) {
+        console.error(e);
+    }
+})
 
 // Admin and Client Handlers
 // Get meetings of only single user
-router.get('/users/:userId', getUserMeetings)
+router.get('/get-meetings-user', auth, async (req, res) => {
+    try {
+        await getUserMeetings(req, res);
+    } catch (e) {
+        console.error(e);
+    }
+})
 
-// Get single meeting
-router.get('/:id', getMeeting)
+// Get single meeting by name
+router.get('/get-meeting-name', auth, async (req, res) => {
+    try {
+        await getMeeting(req, res);
+    } catch (e) {
+        console.error(e);
+    }
+})
 
 // Create single meeting
-router.post('/', createMeeting)
+router.post('/create-meeting', auth, async (req, res) => {
+    try {
+        await createMeeting(req, res);
+    } catch (e) {
+        console.error(e);
+    }
+})
 
 // Update single meeting
-router.patch('/:id', updateMeeting)
+router.patch('/update-meeting', auth, async (req, res) => {
+    try {
+        await updateMeeting(req, res);
+    } catch (e) {
+        console.error(e);
+    }
+})
 
 // Delete a single meeting
-router.delete('/:id', deleteMeeting)
+router.delete('/delete-meeting', auth, async (req, res) => {
+    try {
+        await deleteMeeting(req, res);
+    } catch (e) {
+        console.error(e);
+    }
+})
 
 // export the routes so we can import them
 // into our main app
