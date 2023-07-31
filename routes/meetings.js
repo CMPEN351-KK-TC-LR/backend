@@ -30,18 +30,18 @@ const auth = require('../controllers/auth')
 // Get all meetings
 router.get('/get-meetings', auth, async (req, res) => {
     try {
-        await getAllMeetings(req, res);
+        await getAllMeetings(req, res)
     } catch (e) {
-        console.error(e);
+        console.error(e)
     }
 })
 
 // Get meetings for a single time slot
 router.get('/get-meetings-timeslot', auth, async (req, res) => {
     try {
-        await getTimeMeetings(req, res);
+        await getTimeMeetings(req, res)
     } catch (e) {
-        console.error(e);
+        console.error(e)
     }
 })
 
@@ -49,45 +49,45 @@ router.get('/get-meetings-timeslot', auth, async (req, res) => {
 // Get meetings of only single user
 router.get('/get-meetings-user', auth, async (req, res) => {
     try {
-        await getUserMeetings(req, res);
+        await getUserMeetings(req, res)
     } catch (e) {
-        console.error(e);
+        console.error(e)
     }
 })
 
 // Get single meeting by name
 router.get('/get-meeting-name', auth, async (req, res) => {
     try {
-        await getMeeting(req, res);
+        await getMeeting(req, res)
     } catch (e) {
-        console.error(e);
+        console.error(e)
     }
 })
 
 // Create single meeting
 router.post('/create-meeting', auth, async (req, res) => {
     try {
-        await createMeeting(req, res);
+        await createMeeting(req, res)
     } catch (e) {
-        console.error(e);
+        console.error(e)
     }
 })
 
 // Update single meeting
 router.patch('/update-meeting', auth, async (req, res) => {
     try {
-        await updateMeeting(req, res);
+        await updateMeeting(req, res)
     } catch (e) {
-        console.error(e);
+        console.error(e)
     }
 })
 
 // Delete a single meeting
 router.delete('/delete-meeting', auth, async (req, res) => {
     try {
-        await deleteMeeting(req, res);
+        await deleteMeeting(req, res)
     } catch (e) {
-        console.error(e);
+        console.error(e)
     }
 })
 
