@@ -49,3 +49,7 @@ router.get('/charge-specialroom', auth, async (req, res) => {
         console.error(e)
     }
 })
+
+// export the routes so we can import them
+// into our main app
+module.exports = router
