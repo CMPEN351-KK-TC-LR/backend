@@ -24,18 +24,18 @@ const auth = require('../controllers/auth')
 // Create single room
 router.post('/create-room', auth, async (req, res) => {
     try {
-        await createRoom(req, res);
+        await createRoom(req, res)
     } catch (e) {
-        console.error(e);
+        console.error(e)
     }
 })
 
 // Delete single room
 router.delete('/delete-room', auth, async (req, res) => {
     try {
-        await deleteRoom(req, res);
+        await deleteRoom(req, res)
     } catch (e) {
-        console.error(e);
+        console.error(e)
     }
 })
 
@@ -43,9 +43,9 @@ router.delete('/delete-room', auth, async (req, res) => {
 // Reserve room
 router.get('/reserve-room', auth, async (req, res) => {
     try {
-        await reserveRoom(req, res);
+        await reserveRoom(req, res)
     } catch (e) {
-        console.error(e);
+        console.error(e)
     }
 })
 
