@@ -1,5 +1,6 @@
 require('dotenv').config() // make env vars in .env available
                            // from process.env.VAR_NAME_HERE
+const cors = require('cors');
 const express = require('express') // make express.js available
 const mongoose = require('mongoose') // Connect to MongoDB
 // Import route handlers here
@@ -18,6 +19,8 @@ if (!process.env.PRIV_KEY) {
     console.error("No signing key set.");
     process.exit(1);
 }
+
+app.use(cors({ origin: 'http://localhost:3000' }));
 
 // Middleware - handles requests and runs upon a request being received
 app.use(express.json()) // makes any body passed in a request, be forwarded
@@ -51,7 +54,7 @@ app.use((err, req, res, next) => {
 })
 
 // Connect to database
-mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(process.env.MONGODB_URI)
     .then(() => {
         // Only start listening on port to serve app 
         app.listen(process.env.PORT, () => {

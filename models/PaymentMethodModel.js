@@ -30,4 +30,4 @@ const paymentMethodSchema = new Schema({
 })
 
 // Export for management by app
-module.exports = mongoose.model('PaymentMethod', paymentSchema)
+module.exports = mongoose.model('PaymentMethod', paymentMethodSchema)

@@ -3,7 +3,7 @@ const User = require('../models/UserModel') // Import user model
                                                   // using Model
 const mongoose = require('mongoose')
 const Joi = require('joi')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const config = process.env
 
@@ -121,31 +121,28 @@ const loginUser = async (req, res) => {
     const { _id, email, password } = req.body
 
     // User DB search variable
-    const searchVar = _id ? _id : email
-    // Check that user email exists
-    const user = await User.findOne({ searchVar })
+    let searchQuery = _id ? { _id } : { email };
+    const user = await User.findOne(searchQuery)
 
     // Check password
     if (user) {
-        try {
-            // Compare hashes
-            await bcrypt.compare(password, user.password)
-            // Create and sign token
-            const token = signToken(user)
-            delete user.password // Remove password before returning object
-            res.header('x-auth-token', token)
-                .status(200)
-                .json({
-                    _id: user._id,
-                    isAdmin: user.admin
-                })
-        } catch (e) {
-            throw Error(e)
-        }
+        const validPassword = await bcrypt.compare(password, user.password)
+        if (!validPassword) return res.status(400).send('Invalid password')
+
+        // Create and sign token
+        const token = signToken(user)
+        delete user.password // Remove password before returning object
+        res.header('x-auth-token', token)
+            .status(200)
+            .json({
+                _id: user._id,
+                isAdmin: user.admin
+            })
     } else {
         res.status(400).send('Invalid credentials')
     }
 }
+
 
 // Update user profile information
 const updateProfile = async (req, res) => {

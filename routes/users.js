@@ -81,6 +81,15 @@ router.get('/user-info', auth, async (req, res) => {
     res.json(user)
 })
 
+router.get('/', async (req, res) => {
+    try {
+        const users = await User.find(); // Fetch all users from database
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 // Update profile information
 router.patch('/update/:id', updateProfile)
 
