@@ -4,9 +4,13 @@ const Complaint = require('../models/ComplaintModel')   // Import complaint mode
 const mongoose = require('mongoose')
 
 // Admin only functions:
-// Get all complaints
+// Get all complaints that are not resolved
 const getAllComplaints = async (req, res) => {
-    const complaints = await Complaint.find({}).sort({createdAt: -1})
+    const complaints = (await Complaint.find({}).filter({resolved: false}))
+
+    if(!complaints){
+        return res.status(400).json({error: 'Nothing found'})
+    }
 
     res.status(200).json(complaints)
 }
