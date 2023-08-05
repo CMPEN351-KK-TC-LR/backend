@@ -5,6 +5,7 @@ const roomSchema = new Schema({
     number: { // required room number
         type: Number,
         required: true,
+        unique: true,
         minlength: 1,
         maxlength: 250
     },
