@@ -5,6 +5,7 @@ const meetingSchema = new Schema({
     name: { // make sure each meeting has a String name
         type: String,
         required: true,
+        unique: true,
         minlength: 3,
         maxlength: 150
     },
