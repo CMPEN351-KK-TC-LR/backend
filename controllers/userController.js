@@ -132,11 +132,12 @@ const loginUser = async (req, res) => {
         // Create and sign token
         const token = signToken(user)
         delete user.password // Remove password before returning object
-        res.header('x-auth-token', token)
+        res.header('x-access-token', token)
             .status(200)
             .json({
                 _id: user._id,
-                isAdmin: user.admin
+                isAdmin: user.admin,
+                token: token
             })
     } else {
         res.status(400).send('Invalid credentials')
@@ -160,6 +161,7 @@ const updateProfile = async (req, res) => {
 
     res.status(200).json(profile)
 }
+
 module.exports = {
     createAdmin,
     createClient,

@@ -6,14 +6,19 @@ const mongoose = require('mongoose')
 // Admin only functions:
 // Get all complaints that are not resolved
 const getAllComplaints = async (req, res) => {
-    const complaints = (await Complaint.find({}).filter({resolved: false}))
+    try {
+        const complaints = await Complaint.find({ resolved: false });
 
-    if(!complaints){
-        return res.status(400).json({error: 'Nothing found'})
+        if (!complaints || complaints.length === 0) {
+            return res.status(400).json({ error: 'Nothing found' });
+        }
+
+        res.status(200).json(complaints);
+    } catch (err) {
+        res.status(500).json({ error: 'Server error' });
     }
-
-    res.status(200).json(complaints)
 }
+
 
 // Respond to a single complaint
 // req.body should contain mongoose _id of complaint, reply and resolutionDate 
