@@ -1,0 +1,16 @@
+{
+    "files": ["."],
+    "formats": [
+        {
+            "name": "stylish",
+            "output": "console"
+        },
+        {
+            "name": "compact",
+            "output": "file",
+            "path": "static-code-analysis/static-analysis-backend.txt",
+            "id": "backendCodeStaticAnalysis"
+        }
+    ],
+    "eslintConfig": {}
+}
