@@ -1,4 +1,4 @@
-const Meeting = require('../models/RoomModel') // Import room model
+const Room = require('../models/RoomModel') // Import room model
                                                   // so we can work with DB
                                                   // using Model
 const mongoose = require('mongoose')

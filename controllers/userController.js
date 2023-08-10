@@ -38,7 +38,7 @@ const signToken = (user) => {
         { user_id: user._id, isAdmin: user.admin},
         config.PRIV_KEY,
         {
-            expiresIn: "8h"
+            expiresIn: "8h" // Make sure we expire the token in within one workday
         }
     )
     return token
@@ -80,7 +80,7 @@ const createAdmin = async (req, res) => {
     })
     
     try {
-        token = await hashNStorePw(user)
+        const token = await hashNStorePw(user)
         res.header('x-auth-token', token).send({
             _id: user._id,
             name: user.name,
@@ -105,7 +105,7 @@ const createClient = async (req, res) => {
     })
 
     try {
-        token = await hashNStorePw(user)
+        const token = await hashNStorePw(user)
         res.header('x-auth-token', token).send({
             _id: user._id,
             name: user.name,
