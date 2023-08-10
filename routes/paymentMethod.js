@@ -1,8 +1,6 @@
 // make express available so we can setup Router
 const express = require('express')
-const Payment = require('../models/PaymentMethodModel') // Import paymentmethod model
-                                                  // so we can work with DB
-                                                  // using Model
+
 const {     
     createPaymentMethod,
     updatePaymentMethod,

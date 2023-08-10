@@ -1,8 +1,6 @@
 // make express available so we can setup Router
 const express = require('express')
 
-const Complaint = require('../models/ComplaintModel')
-
 const {
     getAllComplaints,
     updateComplaint,
