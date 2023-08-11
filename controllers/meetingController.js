@@ -74,6 +74,14 @@ const createMeeting = async (req, res) => {
     if(!mongoose.Types.ObjectID.isValid(creator)){
         return res.status(404).json({error: 'Invalid data'})
     }
+
+    if(name.length > 150 || name.length < 3){
+        return res.status(400).json({error: 'Invalid data'})
+    }
+
+    if(room > 250 || room < 1){
+        return res.status(400).json({error: 'Invalid data'})
+    }
   
     try {
         const meeting = await Meeting.create({name, time, room, creator})
