@@ -13,6 +13,8 @@ afterAll(async () => await db.close());
 
 describe ('complaint test', () => {
     // Begin root level unit tests
+
+    // UpdateComplaint
     it('sends 400 error with no body /api/complaints/update-complaint',  function testUpdateComplaint(done) {
         agent
             .post("/api/complaints/update-complaint")
@@ -47,6 +49,7 @@ describe ('complaint test', () => {
             .expect(400, done)
     })
 
+    // CreateComplaint
     it('sends 400 error with no body /api/complaints/create-complaint',  function testCreateComplaint(done) {
         agent
             .post("/api/complaints/create-complaint")
@@ -65,10 +68,22 @@ describe ('complaint test', () => {
             .expect(400, done)
     })
 
-    it('sends 400 error if email is invalid', (done) => {
+    it('sends 400 error if email <21', (done) => {
         const complaint = {
             subject: "Testing System",
             email: "t@email.com",
+            message: "This is a test for the system."
+        }
+        agent
+            .post('/api/complaints/create-complaint')
+            .send(complaint)
+            .expect(400, done)
+    })
+
+    it('sends 400 error if email >50', (done) => {
+        const complaint = {
+            subject: "Testing System",
+            email: "t1111111111111111111111111111111111111111111111111111@email.com",
             message: "This is a test for the system."
         }
         agent
