@@ -26,7 +26,7 @@ const auth = require('../controllers/auth')
 //
 // Admin Only Handlers:
 // Get all meetings
-router.get('/get-meetings', auth, async (req, res) => {
+router.post('/get-meetings', auth, async (req, res) => {
     try {
         await getAllMeetings(req, res)
     } catch (e) {
@@ -35,7 +35,7 @@ router.get('/get-meetings', auth, async (req, res) => {
 })
 
 // Get meetings for a single time slot
-router.get('/get-meetings-timeslot', auth, async (req, res) => {
+router.post('/get-meetings-timeslot', auth, async (req, res) => {
     try {
         await getTimeMeetings(req, res)
     } catch (e) {
@@ -45,7 +45,7 @@ router.get('/get-meetings-timeslot', auth, async (req, res) => {
 
 // Admin and Client Handlers
 // Get meetings of only single user
-router.get('/get-meetings-user', auth, async (req, res) => {
+router.post('/get-meetings-user', auth, async (req, res) => {
     try {
         await getUserMeetings(req, res)
     } catch (e) {
@@ -54,7 +54,7 @@ router.get('/get-meetings-user', auth, async (req, res) => {
 })
 
 // Get single meeting by name
-router.get('/get-meeting-name', auth, async (req, res) => {
+router.post('/get-meeting-name', auth, async (req, res) => {
     try {
         await getMeeting(req, res)
     } catch (e) {

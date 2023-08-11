@@ -7,7 +7,9 @@ const mongoose = require('mongoose')
 // Create a single room
 // req.body should contain room number and if it is special room
 const createRoom = async (req, res) => {
-    const {number, specialroom} = req.body
+    let {number, specialroom} = req.body
+
+    specialroom = specialroom === "true" || specialroom === "True"
 
     try {
         const room = await Room.create({number, specialroom})
@@ -20,13 +22,13 @@ const createRoom = async (req, res) => {
 // Delete a single room
 // req.body should contain room number
 const deleteRoom = async (req, res) => {
-    const { num } = req.body
+    const { number } = req.body
 
-    if(!mongoose.Types.ObjectId.isValid(num)){
+    if(number < 0 || number > 250){
         return res.status(404).json({error: 'No room found'})
     }
 
-    const room = await Room.findOneAndDelete({number: num})
+    const room = await Room.findOneAndDelete({number})
 
     if(!room){
         return res.status(400).json({error: 'No room found'})
