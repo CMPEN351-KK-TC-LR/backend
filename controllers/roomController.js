@@ -9,6 +9,10 @@ const mongoose = require('mongoose')
 const createRoom = async (req, res) => {
     let {number, specialroom} = req.body
 
+    if(number > 250 || number < 1){
+        return res.status(400).json({error: 'Invalid data'})
+    }
+  
     specialroom = specialroom === "true" || specialroom === "True"
 
     try {
@@ -24,8 +28,8 @@ const createRoom = async (req, res) => {
 const deleteRoom = async (req, res) => {
     const { number } = req.body
 
-    if(number < 0 || number > 250){
-        return res.status(404).json({error: 'Nothing found'})
+    if(number < 1 || number > 250){
+        return res.status(400).json({error: 'Nothing found'})
     }
 
     const room = await Room.findOneAndDelete({number})
