@@ -13,6 +13,8 @@ afterAll(async () => await db.close());
 
 describe ('room tests', () => {
     // Begin root level unit tests
+
+    // CreateRoom
     it('sends 400 error with no body /api/rooms/create-room',  function testCreateRoom(done) {
         agent
             .post("/api/rooms/create-room")
@@ -41,6 +43,7 @@ describe ('room tests', () => {
             .expect(400, done)
     })
 
+    // DeleteRoom
     it('sends 400 error with no body /api/rooms/delete-room',  function testDeleteRoom(done) {
         agent
             .post("/api/rooms/delete-room")
@@ -69,6 +72,7 @@ describe ('room tests', () => {
             .expect(400, done)
     })
 
+    // ReserveRoom
     it('sends 400 error with no body /api/rooms/reserve-room',  function testReserveRoom(done) {
         agent
             .post("/api/rooms/reserve-room")
