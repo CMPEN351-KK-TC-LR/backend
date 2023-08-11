@@ -5,7 +5,7 @@ const Schema = mongoose.Schema // to create schema
 
 // User model object in database
 const userSchema = new Schema({
-    admin: { // set this property to true for admin users
+    isAdmin: { // set this property to true for admin users
         type: Boolean,
         required: true
     },

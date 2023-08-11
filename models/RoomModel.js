@@ -6,12 +6,12 @@ const roomSchema = new Schema({
         type: Number,
         required: true,
         unique: true,
-        minlength: 1,
-        maxlength: 250
+        min: 1,
+        max: 250
     },
     specialRoom: {
         type: Boolean, // Rooms have two possible types
-        required: true // true for this property means it's
+        //required: true // true for this property means it's
                        // a special room and requires payment
                        // before booking a meeting.
     },

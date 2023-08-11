@@ -91,7 +91,7 @@ router.get('/', async (req, res) => {
 });
 
 // Update profile information
-router.patch('/update/:id', updateProfile)
+router.patch('/update', updateProfile)
 
 // export the routes so we can import them
 // into our main app

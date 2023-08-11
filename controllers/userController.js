@@ -147,13 +147,13 @@ const loginUser = async (req, res) => {
 
 // Update user profile information
 const updateProfile = async (req, res) => {
-    const{ id } = req.params
+    const{ _id } = req.params
 
-    if(!mongoose.Types.ObjectID.isValid(id)){
+    if( _id.length != 24 ){
         return res.status(404).json({error: 'No profile found'})
     }
 
-    const profile = await User.findOneAndUpdate({_id: id}, {...req.body})
+    const profile = await User.findOneAndUpdate({ _id }, {...req.body})
 
     if(!profile) {
         return res.status(400).json({error: 'No profile found'})

@@ -33,15 +33,15 @@ const getTimeMeetings = async (req, res) => {
 // Get meetings for single user
 // req.body should contain mongoose _id for a user
 const getUserMeetings = async (req, res) => {
-    const{ userID } = req.body
+    const{ _id } = req.body
 
-    if(!mongoose.Types.ObjectID.isValid(userID)){
+    if(_id.length != 24){
         return res.status(404).json({error: 'No user found'})
     }
 
-    const meetings = (await Meeting.find({}).filter({attendees: userID}))
+    const meetings = await Meeting.find({attendees: _id})
 
-    if(!meetings){
+    if(!meetings) {
         return res.status(400).json({error: 'No meetings found'})
     }
     
@@ -53,14 +53,14 @@ const getUserMeetings = async (req, res) => {
 const getMeeting = async (req, res) => {
     const{ name } = req.body
 
-    if(!mongoose.Types.ObjectID.isValid(name)){
-        return res.status(404).json({error: 'No meeting found'})
+    if(name.length > 150 || name.length < 3){
+        return res.status(200).json({error: 'No meeting found'})
     }
 
     const meeting = await Meeting.findOne({name: name})
 
-    if(!meeting){
-        return res.status(400).json({error: 'No meeting found'})
+    if(!meeting) {
+        return res.status(200).json({error: 'No meeting found'})
     }
     
     res.status(200).json(meeting)
@@ -102,14 +102,14 @@ const updateMeeting = async (req, res) => {
 const deleteMeeting = async (req, res) => {
     const{ name } = req.body
 
-    if(!mongoose.Types.ObjectID.isValid(name)){
-        return res.status(404).json({error: 'No meeting found'})
+    if(name.length > 150 || name.length < 3){
+        return res.status(200).json({error: 'No meeting found'})
     }
 
     const meeting = await Meeting.findOneAndDelete({name: name})
 
     if(!meeting){
-        return res.status(400).json({error: 'No meeting found'})
+        return res.status(200).json({error: 'No meeting found'})
     }
 
     res.status(200).json(meeting)
