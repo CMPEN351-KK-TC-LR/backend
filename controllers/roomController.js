@@ -25,13 +25,13 @@ const deleteRoom = async (req, res) => {
     const { number } = req.body
 
     if(number < 0 || number > 250){
-        return res.status(404).json({error: 'No room found'})
+        return res.status(404).json({error: 'Nothing found'})
     }
 
     const room = await Room.findOneAndDelete({number})
 
     if(!room){
-        return res.status(400).json({error: 'No room found'})
+        return res.status(400).json({error: 'Nothing found'})
     }
 
     res.status(200).json(room)
@@ -44,19 +44,19 @@ const reserveRoom = async (req, res) => {
     const{ num, meetingDate } = req.body
 
     if(!mongoose.Types.ObjectId.isValid(num)){
-        return res.status(404).json({error: 'No room found'})
+        return res.status(404).json({error: 'Nothing found'})
     }
 
     const room = await Room.findOne({number: num})
 
     if(room.meetings == meetingDate){
-        return res.status(400).json({error: 'Room already reserved for time.'})
+        return res.status(400).json({error: 'Room already reserved'})
     }
 
     await Room.updateOne({room}, {meetings: meetingDate})
 
     if(!room) {
-        return res.status(400).json({error: 'No room found'})
+        return res.status(400).json({error: 'Nothing found'})
     }
 
     res.status(200).json(room)
