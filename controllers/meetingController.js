@@ -54,13 +54,13 @@ const getMeeting = async (req, res) => {
     const{ name } = req.body
 
     if(name.length > 150 || name.length < 3){
-        return res.status(200).json({error: 'Nothing found'})
+        return res.status(400).json({error: 'Nothing found'})
     }
 
     const meeting = await Meeting.findOne({name: name})
 
     if(!meeting) {
-        return res.status(200).json({error: 'Nothing found'})
+        return res.status(400).json({error: 'Nothing found'})
     }
     
     res.status(200).json(meeting)
@@ -71,6 +71,10 @@ const getMeeting = async (req, res) => {
 const createMeeting = async (req, res) => {
     const {name, time, room, creator} = req.body
 
+    if(!mongoose.Types.ObjectID.isValid(creator)){
+        return res.status(404).json({error: 'Invalid data'})
+    }
+  
     try {
         const meeting = await Meeting.create({name, time, room, creator})
         res.status(200).json(meeting)
@@ -103,13 +107,13 @@ const deleteMeeting = async (req, res) => {
     const{ name } = req.body
 
     if(name.length > 150 || name.length < 3){
-        return res.status(200).json({error: 'Nothing found'})
+        return res.status(400).json({error: 'Nothing found'})
     }
 
     const meeting = await Meeting.findOneAndDelete({name: name})
 
     if(!meeting){
-        return res.status(200).json({error: 'Nothing found'})
+        return res.status(400).json({error: 'Nothing found'})
     }
 
     res.status(200).json(meeting)
