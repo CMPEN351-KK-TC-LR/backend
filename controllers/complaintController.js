@@ -44,6 +44,18 @@ const updateComplaint = async (req, res) => {
 const createComplaint = async (req, res) => {
     const {subject, email, message} = req.body
 
+    if(subject.length > 500 || subject.length < 10){
+        return res.status(400).json({error: 'Invalid data'})
+    }
+
+    if(email.length > 50 || email.length < 21){
+        return res.status(400).json({error: 'Invalid data'})
+    }
+
+    if(message.length > 500 || message.length < 10){
+        return res.status(400).json({error: 'Invalid data'})
+    }
+  
     try {
         const complaint = await Complaint.create({subject, email, message, resolved: false})
         res.status(200).json(complaint)
