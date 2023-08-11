@@ -17,13 +17,13 @@ const getTimeMeetings = async (req, res) => {
     const{ time } = req.body
 
     if(!mongoose.Types.ObjectID.isValid(time)){
-        return res.status(404).json({error: 'Invalid time slot'})
+        return res.status(404).json({error: 'Invalid data entered'})
     }
 
     const meetings = (await Meeting.find({}).filter({time: time}))
 
     if(!meetings){
-        return res.status(400).json({error: 'No meetings found'})
+        return res.status(400).json({error: 'Nothing found'})
     }
     
     res.status(200).json(meetings)
@@ -36,13 +36,13 @@ const getUserMeetings = async (req, res) => {
     const{ _id } = req.body
 
     if(_id.length != 24){
-        return res.status(404).json({error: 'No user found'})
+        return res.status(404).json({error: 'Nothing found'})
     }
 
     const meetings = await Meeting.find({attendees: _id})
 
     if(!meetings) {
-        return res.status(400).json({error: 'No meetings found'})
+        return res.status(400).json({error: 'Nothing found'})
     }
     
     res.status(200).json(meetings)
@@ -54,13 +54,13 @@ const getMeeting = async (req, res) => {
     const{ name } = req.body
 
     if(name.length > 150 || name.length < 3){
-        return res.status(200).json({error: 'No meeting found'})
+        return res.status(200).json({error: 'Nothing found'})
     }
 
     const meeting = await Meeting.findOne({name: name})
 
     if(!meeting) {
-        return res.status(200).json({error: 'No meeting found'})
+        return res.status(200).json({error: 'Nothing found'})
     }
     
     res.status(200).json(meeting)
@@ -85,13 +85,13 @@ const updateMeeting = async (req, res) => {
     const{ name } = req.body
 
     if(!mongoose.Types.ObjectID.isValid(name)){
-        return res.status(404).json({error: 'No meeting found'})
+        return res.status(404).json({error: 'Nothing found'})
     }
 
     const meeting = await Meeting.findOneAndUpdate({name: name}, {...req.body})
 
     if(!meeting){
-        return res.status(400).json({error: 'No meeting found'})
+        return res.status(400).json({error: 'Nothing found'})
     }
 
     res.status(200).json(meeting)
@@ -103,13 +103,13 @@ const deleteMeeting = async (req, res) => {
     const{ name } = req.body
 
     if(name.length > 150 || name.length < 3){
-        return res.status(200).json({error: 'No meeting found'})
+        return res.status(200).json({error: 'Nothing found'})
     }
 
     const meeting = await Meeting.findOneAndDelete({name: name})
 
     if(!meeting){
-        return res.status(200).json({error: 'No meeting found'})
+        return res.status(200).json({error: 'Nothing found'})
     }
 
     res.status(200).json(meeting)
