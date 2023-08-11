@@ -17,6 +17,8 @@ const complaintSchema = new Schema({
     },
     message: { // message body of complaint
         type: String,
+        minlength: 10,
+        maxlength: 500,
         required: true // no empty complaint bodies.
                        // will need to validate elsewhere
                        // to ensure no all-space characters
