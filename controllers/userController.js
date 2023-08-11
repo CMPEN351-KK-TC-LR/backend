@@ -127,7 +127,7 @@ const loginUser = async (req, res) => {
     // Check password
     if (user) {
         const validPassword = await bcrypt.compare(password, user.password)
-        if (!validPassword) return res.status(400).send('Invalid password')
+        if (!validPassword) return res.status(400).send('Invalid data')
 
         // Create and sign token
         const token = signToken(user)
@@ -140,7 +140,7 @@ const loginUser = async (req, res) => {
                 token: token
             })
     } else {
-        res.status(400).send('Invalid credentials')
+        res.status(400).send('Invalid data')
     }
 }
 
@@ -150,13 +150,13 @@ const updateProfile = async (req, res) => {
     const{ _id } = req.params
 
     if( _id.length != 24 ){
-        return res.status(404).json({error: 'No profile found'})
+        return res.status(404).json({error: 'Nothing found'})
     }
 
     const profile = await User.findOneAndUpdate({ _id }, {...req.body})
 
     if(!profile) {
-        return res.status(400).json({error: 'No profile found'})
+        return res.status(400).json({error: 'Nothing found'})
     }
 
     res.status(200).json(profile)
