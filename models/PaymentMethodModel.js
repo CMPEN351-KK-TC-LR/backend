@@ -11,10 +11,13 @@ const paymentMethodSchema = new Schema({
     // Our app only allows payment with credit cards
     cardNumber: { // credit card number
         type: Number,
+        min: 0,
         required: true
     },
     ccv: {
         type: Number, // the 3 digits on backside of card
+        min: 0,
+        max: 999,
         required: true
     },
     expirationDate: {
