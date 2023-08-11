@@ -19,8 +19,8 @@ const meetingSchema = new Schema({
     room: { // require an associated room number
         type: Number,
         required: true,
-        minlength: 1,
-        maxlength: 250
+        min: 1,
+        max: 250
     },
     creator: { // Require that the request contains
                // UserId of the user creating the meeting
