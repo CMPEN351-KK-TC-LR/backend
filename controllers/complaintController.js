@@ -26,13 +26,13 @@ const updateComplaint = async (req, res) => {
     const{ id, reply, resolutionDate } = req.body
 
     if(!mongoose.Types.ObjectID.isValid(id)){
-        return res.status(404).json({error: 'No complaint found'})
+        return res.status(404).json({error: 'Nothing found'})
     }
 
     const complaint = await Complaint.findOneAndUpdate({_id: id}, {reply: reply, resolved: true, resolutionDate: resolutionDate})
 
     if(!complaint){
-        return res.status(400).json({error: 'No complaint found'})
+        return res.status(400).json({error: 'Nothing found'})
     }
 
     res.status(200).json(complaint)
