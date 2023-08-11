@@ -13,6 +13,8 @@ afterAll(async () => await db.close());
 
 describe ('paymentMethod tests', () => {
     // Begin root level unit tests
+
+    // CreatePaymentMethod
     it('sends 400 error with no body /api/paymentMethod/create-paymentMethod',  function testCreatePaymentMethod(done) {
          agent
             .post("/api/paymentMethod/create-paymentMethod")
@@ -83,6 +85,7 @@ describe ('paymentMethod tests', () => {
             .expect(400, done)
     })
 
+    // UpdatePaymentMethod
     it('sends 400 error with no body /api/paymentMethod/update-paymentMethod',  function testUpdatePaymentMethod(done) {
         agent
            .post("/api/paymentMethod/update-paymentMethod")
@@ -133,6 +136,7 @@ describe ('paymentMethod tests', () => {
             .expect(400, done)
     })
 
+    // ChargeSpecialRoom
     it('sends 400 error with no body /api/paymentMethod/charge-specialroom',  function testChargeSpecialRoom(done) {
         agent
            .post("/api/paymentMethod/charge-specialRoom")
