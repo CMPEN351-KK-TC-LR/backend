@@ -4,3 +4,5 @@
 # using package.json set values (avoids high overhead
 # of pushing up code for modules to our repo)
 node_modules
+# ignore coverage dir because it'll change so often and it will run automatically anyway
+coverage/
