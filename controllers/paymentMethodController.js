@@ -22,13 +22,13 @@ const updatePaymentMethod = async (req, res) => {
     const{ id } = req.body
 
     if(!mongoose.Types.ObjectID.isValid(id)){
-        return res.status(404).json({error: 'No user found'})
+        return res.status(404).json({error: 'Nothing found'})
     }
 
     const payment = await Payment.findOneAndUpdate({_id: id}, {...req.body})
 
     if(!payment){
-        return res.status(400).json({error: 'No payment found'})
+        return res.status(400).json({error: 'Nothing found'})
     }
 
     res.status(200).json(payment)
@@ -40,13 +40,13 @@ const chargeSpecialRoom = async (req, res) => {
     const{ id } = req.body
 
     if(!mongoose.Types.ObjectID.isValid(id)){
-        return res.status(404).json({error: 'No user found'})
+        return res.status(404).json({error: 'Nothing found'})
     }
 
     const payment = await Payment.findOne({_id: id})
 
     if(!payment){
-        return res.status(400).json({error: 'No payment found'})
+        return res.status(400).json({error: 'Nothing found'})
     }
 
     // Used to simulate the system charging the user's payment method
