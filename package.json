@@ -3,8 +3,12 @@
   "version": "0.0.1",
   "description": "",
   "main": "server.js",
+  "jest": {
+    "testEnvironment": "node"
+  },
   "scripts": {
-    "test": "mocha tests",
+    "test": "jest --detectOpenHandles --silent --runInBand",
+    "test-w-covg": "jest --coverage --verbose --silent --runInBand",
     "start": "node server.js",
     "dev": "nodemon server.js",
     "eslint-output": "eslint-output"
@@ -35,7 +39,9 @@
     "chai": "^4.3.7",
     "eslint": "^8.46.0",
     "eslint-output": "^3.0.1",
+    "jest": "^29.6.2",
     "mocha": "^10.2.0",
+    "mongodb-memory-server": "^8.14.0",
     "nodemon": "^3.0.1",
     "supertest": "^6.3.3"
   }
