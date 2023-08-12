@@ -47,9 +47,6 @@ const deleteRoom = async (req, res) => {
 const reserveRoom = async (req, res) => {
     const{ num, meetingDate } = req.body
 
-    if(!mongoose.Types.ObjectId.isValid(num)){
-        return res.status(404).json({error: 'Nothing found'})
-    }
 
     const room = await Room.findOne({number: num})
 

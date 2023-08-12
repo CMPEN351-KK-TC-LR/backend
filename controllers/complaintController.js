@@ -25,10 +25,6 @@ const getAllComplaints = async (req, res) => {
 const updateComplaint = async (req, res) => {
     const{ id, reply, resolutionDate } = req.body
 
-    if(!mongoose.Types.ObjectID.isValid(id)){
-        return res.status(404).json({error: 'Nothing found'})
-    }
-
     const complaint = await Complaint.findOneAndUpdate({_id: id}, {reply: reply, resolved: true, resolutionDate: resolutionDate})
 
     if(!complaint){

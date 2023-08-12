@@ -21,9 +21,6 @@ const createPaymentMethod = async (req, res) => {
 const updatePaymentMethod = async (req, res) => {
     const{ id } = req.body
 
-    if(!mongoose.Types.ObjectID.isValid(id)){
-        return res.status(404).json({error: 'Nothing found'})
-    }
 
     const payment = await Payment.findOneAndUpdate({_id: id}, {...req.body})
 
@@ -38,10 +35,6 @@ const updatePaymentMethod = async (req, res) => {
 // req.body should contain user's mongoose id
 const chargeSpecialRoom = async (req, res) => {
     const{ id } = req.body
-
-    if(!mongoose.Types.ObjectID.isValid(id)){
-        return res.status(404).json({error: 'Nothing found'})
-    }
 
     const payment = await Payment.findOne({_id: id})
 

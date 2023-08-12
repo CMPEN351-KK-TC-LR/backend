@@ -16,10 +16,6 @@ const getAllMeetings = async (req, res) => {
 const getTimeMeetings = async (req, res) => {
     const{ time } = req.body
 
-    if(!mongoose.Types.ObjectID.isValid(time)){
-        return res.status(404).json({error: 'Invalid data entered'})
-    }
-
     const meetings = (await Meeting.find({}).filter({time: time}))
 
     if(!meetings){
@@ -71,10 +67,6 @@ const getMeeting = async (req, res) => {
 const createMeeting = async (req, res) => {
     const {name, time, room, creator} = req.body
 
-    if(!mongoose.Types.ObjectID.isValid(creator)){
-        return res.status(404).json({error: 'Invalid data'})
-    }
-
     if(name.length > 150 || name.length < 3){
         return res.status(400).json({error: 'Invalid data'})
     }
@@ -96,9 +88,7 @@ const createMeeting = async (req, res) => {
 const updateMeeting = async (req, res) => {
     const{ name } = req.body
 
-    if(!mongoose.Types.ObjectID.isValid(name)){
-        return res.status(404).json({error: 'Nothing found'})
-    }
+    
 
     const meeting = await Meeting.findOneAndUpdate({name: name}, {...req.body})
 

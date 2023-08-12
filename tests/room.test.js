@@ -102,6 +102,6 @@ describe ('room tests', () => {
         agent
             .post('/api/rooms/reserve-room')
             .send(room)
-            .expect(400, done)
+            .expect(404, done)
     })
 })
